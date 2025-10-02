@@ -1,80 +1,64 @@
-using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.Collections;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
+using System.Text;
+using System;
 
-class Solution {
-
-    class SinglyLinkedListNode {
-        public int data;
-        public SinglyLinkedListNode next;
-
-        public SinglyLinkedListNode(int nodeData) {
-            this.data = nodeData;
-            this.next = null;
-        }
-    }
-
-    class SinglyLinkedList {
-        public SinglyLinkedListNode head;
-        public SinglyLinkedListNode tail;
-
-        public SinglyLinkedList() {
-            this.head = null;
-            this.tail = null;
-        }
-
-        public void InsertNode(int nodeData) {
-            SinglyLinkedListNode node = new SinglyLinkedListNode(nodeData);
-
-            if (this.head == null) {
-                this.head = node;
-            } else {
-                this.tail.next = node;
-            }
-
-            this.tail = node;
-        }
-    }
-
-    static void PrintSinglyLinkedList(SinglyLinkedListNode node, string sep, TextWriter textWriter) {
-        while (node != null) {
-            textWriter.Write(node.data);
-
-            node = node.next;
-
-            if (node != null) {
-                textWriter.Write(sep);
-            }
-        }
-    }
-
-    // Complete the CompareLists function below.
+class Result
+{
 
     /*
-     * For your reference:
+     * Complete the 'compareTriplets' function below.
      *
-     * SinglyLinkedListNode {
-     *     int data;
-     *     SinglyLinkedListNode next;
-     * }
-     *
+     * The function is expected to return an INTEGER_ARRAY.
+     * The function accepts following parameters:
+     *  1. INTEGER_ARRAY a
+     *  2. INTEGER_ARRAY b
      */
-    static bool CompareLists(SinglyLinkedListNode head1, SinglyLinkedListNode head2) {
-        SinglyLinkedListNode current1 = head1;
-    SinglyLinkedListNode current2 = head2;
-    
-    while (current1 != null && current2 != null) {
-        if (current1.data != current2.data) {
-            return false;
+
+    public static List<int> compareTriplets(List<int> a, List<int> b)
+    {
+        int alice = 0;
+        int bob = 0;
+        for (int i = 0; i < 3; i++)
+        {
+            if (a[i] > b[i])
+            {
+                alice++;
+            }
+            else if (a[i] < b[i])
+            {
+                bob++;
+            }
         }
-        current1 = current1.next;
-        current2 = current2.next;
-    }
-    
-    return current1 == null && current2 == null;
-
-
+        return new List<int> { alice, bob };
     }
 
-    static void Main
+}
+
+class Solution
+{
+    public static void Main(string[] args)
+    {
+        TextWriter textWriter = new StreamWriter(@System.Environment.GetEnvironmentVariable("OUTPUT_PATH"), true);
+
+        List<int> a = Console.ReadLine().TrimEnd().Split(' ').ToList().Select(aTemp => Convert.ToInt32(aTemp)).ToList();
+
+        List<int> b = Console.ReadLine().TrimEnd().Split(' ').ToList().Select(bTemp => Convert.ToInt32(bTemp)).ToList();
+
+        List<int> result = Result.compareTriplets(a, b);
+
+        textWriter.WriteLine(String.Join(" ", result));
+
+        textWriter.Flush();
+        textWriter.Close();
+    }
+}
